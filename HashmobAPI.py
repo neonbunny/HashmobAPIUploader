@@ -128,6 +128,7 @@ def main():
             else:
                 logging.error(f'Failed to send new finds! We were given a status code of {response.status_code}. '
                                'Retrying after resubmission delay...')
+                time.sleep(resubmission_delay)
         except Exception as e:
             logging.error(f'Error encountered when trying to send new finds: {e}')
 
