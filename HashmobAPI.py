@@ -7,7 +7,6 @@ import argparse
 import time
 
 CONFIG_PATH = 'hashmob_config.ini'
-POTFILE_PATH = 'hashcat.potfile'
 API_ENDPOINT = 'https://hashmob.net/api/v2/submit'
 
 
