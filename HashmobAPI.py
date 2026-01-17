@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+from configparser import ConfigParser, DuplicateSectionError
 from pathlib import Path
 import logging
 import requests
@@ -7,7 +7,7 @@ import argparse
 import time
 
 CONFIG_PATH = 'hashmob_config.ini'
-API_ENDPOINT = 'https://hashmob.net/api/v2/submit'
+DEFAULT_API_ENDPOINT = 'https://hashmob.net/api/v2/submit'
 
 
 def setup():
@@ -73,14 +73,27 @@ def main():
 
     # Use defined config or ask for defaults on first time
     try:
-        api_key = config['API']['api_key']
-        resubmission_delay = int(config['API']['resubmission_delay'])
+        api_endpoint = config['API']['api_endpoint']
     except KeyError:
-        config.add_section('API')
-        
+        try:
+            config.add_section('API')
+        except DuplicateSectionError:
+            pass
+
+        # We're here because no api_endpoint was defined, so don't need to worry about overwriting it
+        config['API']['api_endpoint'] = DEFAULT_API_ENDPOINT
+        api_endpoint = DEFAULT_API_ENDPOINT
+
+    try:
+        # If we've got this far, we can safely assume the API section exists
+        api_key = config['API']['api_key']
+    except KeyError:
         api_key = input("Enter your API key: ")
         config['API']['api_key'] = api_key
 
+    try:
+        resubmission_delay = int(config['API']['resubmission_delay'])
+    except KeyError:
         while not (resubmission_delay := input("Enter the delay between resubmissions in seconds: ")).isdigit():
             print('Please provide an integer for the delay!')
             
@@ -115,7 +128,7 @@ def main():
 
         # Upload data to API
         try:
-            response = upload_to_api(data, API_ENDPOINT, api_key)
+            response = upload_to_api(data, api_endpoint, api_key)
             if response.status_code == 200:
                 logging.info('Successfully sent new finds!')
                 previous_size = os.path.getsize(potfile_path)
