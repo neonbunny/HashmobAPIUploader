@@ -17,20 +17,19 @@ Before using this script, ensure you have the following installed:
 
 3. Run the script using the following command:
 
-python hashcat_parser.py
+python hashcat_parser.py /path/to/hashcat.potfile
 
 
 4. Follow the prompts to enter the required information:
-- Path to the `hashcat.potfile`
-- Path for the JSON output file
-- API endpoint URL
 - API key
-- Value for the 'algorithm'
 - Delay between resubmissions in seconds
+- Value for the 'algorithm' (i.e. hashcat mode number)
 
 5. The script will continuously monitor the `hashcat.potfile`, converting its contents into JSON format and uploading them to the specified API endpoint. It will wait for the specified delay between resubmissions.
 
-**Note:** This script was written to submit hashes to Hashmob.net's API and does not currently support salted submissions, though their API does.
+**Note 1:** This script was written to submit hashes to Hashmob.net's API and does not currently support salted submissions, though their API does.
+
+**Note 2:** The API endpoint can be modified in the `hashmob_config.ini` file created on first run.
 
 ## Contributing
 
