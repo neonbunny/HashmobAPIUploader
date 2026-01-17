@@ -7,7 +7,7 @@ This Python script allows you to parse a `hashcat.potfile`, convert its contents
 Before using this script, ensure you have the following installed:
 
 - Python 3
-- Requests library (install via `pip install requests`)
+- Requests library (install via `pip install -r requirements.txt`)
 
 ## Usage
 
@@ -17,7 +17,7 @@ Before using this script, ensure you have the following installed:
 
 3. Run the script using the following command:
 
-python hashcat_parser.py /path/to/hashcat.potfile
+python HashmobAPI.py /path/to/hashcat.potfile
 
 
 4. Follow the prompts to enter the required information:
